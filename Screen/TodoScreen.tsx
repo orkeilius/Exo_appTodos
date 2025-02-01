@@ -13,7 +13,7 @@ const TodoScreen = () => {
         <View style={styles.screen}>
             <ScrollView>
                 {todos.map((todo) => (
-                    <NoteItem key={todo.pos} todo={todo}/>
+                    <NoteItem key={todo.id} todo={todo}/>
                 ))}
             </ScrollView>
             <AddTodoBar/>

@@ -12,6 +12,7 @@ function AddTodoBar() {
         todoRepository.upsert(new Todo(input,'todo'));
         setInput("");
     }
+    console.log(todoRepository.todos)
 
     const theme = useTheme();
     const styles = StyleSheet.create({
