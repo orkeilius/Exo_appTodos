@@ -6,11 +6,11 @@ import {TodoRepository,TodoContext} from "../Repository/TodosRepository";
 
 function AddTodoBar() {
     const todoRepository =  useContext(TodoContext) as TodoRepository;
-    const [input, setInput]= useState<string>("");
+    const [textInput, setTextInput]= useState<string>("");
 
     const send = () => {
-        todoRepository.upsert(new Todo(input,'todo'));
-        setInput("");
+        todoRepository.upsert(new Todo(textInput,'todo'));
+        setTextInput("");
     }
     console.log(todoRepository.todos)
 
@@ -35,8 +35,8 @@ function AddTodoBar() {
     return (
         <View style={styles.container}>
             <TextInput style={styles.input}
-                value={input}
-                onChangeText={text => setInput(text)}
+                value={textInput}
+                onChangeText={text => setTextInput(text)}
                 onSubmitEditing={send}
             />
             <IconButton icon={"plus"} iconColor={theme.colors.onPrimary} style={styles.button} onPress={send}/>

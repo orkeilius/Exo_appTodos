@@ -10,7 +10,8 @@ export function TodoContextProvider(props: any) {
         if (todo.id === null) {
             todo.id = getMaxId() + 1;
         }
-        setTodos([...todos.filter(t => t.id !== todo.id), todo]);
+        // @ts-ignore
+        setTodos([...todos.filter(t => t.id !== todo.id), todo].sort((a, b) => a.id - b.id));
     }
 
 

@@ -6,6 +6,7 @@ A simple todo app using react native
 ## Todo
 ### feature
 - [x] Add todo
+- [ ] Toggle todo
 - [ ] Delete todo
 - [ ] Detail views
 - [ ] category (done, in progress, todo)
