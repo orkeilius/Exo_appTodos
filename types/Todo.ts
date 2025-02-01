@@ -1,13 +1,14 @@
 class Todo {
-    pos: number;
+    pos: number | null = null;
     text: string;
-    status: boolean;
+    status: Status;
+    id: number|null = null;
 
-    constructor(pos:number,text:string,status:boolean) {
-        this.pos = pos;
+    constructor(text:string,status:Status) {
         this.text = text;
         this.status = status;
     }
 }
 
+type Status = 'done'|'inProgress'|'todo';
 export default Todo;

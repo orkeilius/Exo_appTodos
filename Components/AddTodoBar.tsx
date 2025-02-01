@@ -1,13 +1,15 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {StyleSheet, View} from "react-native";
 import {IconButton, TextInput, useTheme} from "react-native-paper";
 import Todo from "../types/Todo";
+import {TodoRepository,TodoContext} from "../Repository/TodosRepository";
 
-function AddTodoBar({todoListSetter}: Readonly<{ todoListSetter: Function }>) {
-    const [Input, setInput]= useState<string>("");
+function AddTodoBar() {
+    const todoRepository =  useContext(TodoContext) as TodoRepository;
+    const [input, setInput]= useState<string>("");
 
     const send = () => {
-        todoListSetter(new Todo(0,Input,false));
+        todoRepository.upsert(new Todo(input,'todo'));
         setInput("");
     }
 
@@ -32,7 +34,7 @@ function AddTodoBar({todoListSetter}: Readonly<{ todoListSetter: Function }>) {
     return (
         <View style={styles.container}>
             <TextInput style={styles.input}
-                value={Input}
+                value={input}
                 onChangeText={text => setInput(text)}
                 onSubmitEditing={send}
             />

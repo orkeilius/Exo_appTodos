@@ -1,20 +1,22 @@
-import React from "react";
-import { ScrollView, StyleSheet, View} from "react-native";
+import React, {useContext} from "react";
+import {ScrollView, StyleSheet, View} from "react-native";
 import NoteItem from "../Components/TodoItem";
 import Todo from "../types/Todo";
 import AddTodoBar from "../Components/AddTodoBar";
+import {TodoRepository, TodoContext} from "../Repository/TodosRepository";
 
-const TodoScreen = () =>  {
-    const [todos, setTodos] = React.useState<Todo[]>([]);
+const TodoScreen = () => {
+    const todoRepository: TodoRepository = useContext(TodoContext) as TodoRepository;
+    const todos: Todo[] = todoRepository.todos;
 
     return (
         <View style={styles.screen}>
             <ScrollView>
                 {todos.map((todo) => (
-                <NoteItem key={todo.pos} todo={todo} />
+                    <NoteItem key={todo.pos} todo={todo}/>
                 ))}
             </ScrollView>
-            <AddTodoBar todoListSetter={(elem:Todo) => setTodos([...todos,elem])} />
+            <AddTodoBar/>
         </View>
     )
 }
