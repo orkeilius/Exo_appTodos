@@ -1,24 +1,25 @@
 import React, {ReactNode} from "react";
-import {Button, ScrollView, TextInput, View} from "react-native";
+import {Button, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import NoteItem from "../Components/TodoItem";
 import Todo from "../types/Todo";
+import {FAB} from "react-native-paper";
 
 const TodoScreen = () =>  {
-    const [notes, setNotes] = React.useState<Todo[]>([]);
+    const [todos, settodos] = React.useState<Todo[]>([]);
 
     const [textInput,setTextInput] = React.useState<string>('')
 
     function addNote() {
-        setNotes([...notes,new Todo(notes.length,textInput,false)])
+        settodos([...todos,new Todo(todos.length,textInput,false)])
         setTextInput('')
-        console.log(notes)
+        console.log(todos)
     }
 
     return (
-        <View>
+        <View style={styles.screen}>
             <ScrollView>
-                {notes.map((note) => (
-                    <NoteItem key={note.pos} />
+                {todos.map((todo) => (
+                <NoteItem key={todo.pos} todo={todo} />
                 ))}
             </ScrollView>
             <View>
@@ -27,10 +28,18 @@ const TodoScreen = () =>  {
             </View>
         </View>
     )
-
-
-
-
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        height: '100%',
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+    },
+})
 
 export default TodoScreen;
