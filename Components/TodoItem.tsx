@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import Todo from "../types/Todo";
 import {Card,Button} from "react-native-paper";
 import {StyleSheet} from "react-native";

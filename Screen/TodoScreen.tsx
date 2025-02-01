@@ -1,19 +1,11 @@
-import React, {ReactNode} from "react";
-import {Button, ScrollView, StyleSheet, TextInput, View} from "react-native";
+import React from "react";
+import { ScrollView, StyleSheet, View} from "react-native";
 import NoteItem from "../Components/TodoItem";
 import Todo from "../types/Todo";
-import {FAB} from "react-native-paper";
+import AddTodoBar from "../Components/AddTodoBar";
 
 const TodoScreen = () =>  {
-    const [todos, settodos] = React.useState<Todo[]>([]);
-
-    const [textInput,setTextInput] = React.useState<string>('')
-
-    function addNote() {
-        settodos([...todos,new Todo(todos.length,textInput,false)])
-        setTextInput('')
-        console.log(todos)
-    }
+    const [todos, setTodos] = React.useState<Todo[]>([]);
 
     return (
         <View style={styles.screen}>
@@ -22,10 +14,7 @@ const TodoScreen = () =>  {
                 <NoteItem key={todo.pos} todo={todo} />
                 ))}
             </ScrollView>
-            <View>
-                <TextInput value={textInput} onChangeText={text => setTextInput(text)}/>
-                <Button title="Add Notes" onPress={addNote}/>
-            </View>
+            <AddTodoBar todoListSetter={(elem:Todo) => setTodos([...todos,elem])} />
         </View>
     )
 }
