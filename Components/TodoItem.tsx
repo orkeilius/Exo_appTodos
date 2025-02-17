@@ -3,15 +3,23 @@ import Todo from "../types/Todo";
 import {IconButton, Text, Surface, useTheme} from "react-native-paper";
 import {StyleSheet} from "react-native";
 import {TodoContext, TodoRepository} from "../Repository/TodosRepository";
+import {useNavigation} from "@react-navigation/native";
 
 
 const TodoItem = ({todo} : {todo:Todo})  => {
     const todoRepository =  useContext(TodoContext) as TodoRepository;
+    const navigation = useNavigation();
     let isDone = todo.status === 'done';
 
     const toggleStatus = () => {
         todo.status = isDone ? 'todo' : 'done';
         todoRepository.upsert(todo);
+    }
+    const openTodo = (id: number | null) => {
+        // @ts-ignore
+        navigation.navigate('Details', {
+            id: id,
+        });
     }
 
     const theme = useTheme();
@@ -47,9 +55,9 @@ const TodoItem = ({todo} : {todo:Todo})  => {
     return (
         <Surface style={Style.container}>
             <Text style={isDone ?  {...Style.text,...Style.textDone} : Style.text   } >
-                {todo.text}
+                {todo.title}
             </Text>
-            <IconButton style={Style.button} icon="note-plus" />
+            <IconButton style={Style.button} icon="note-plus" onPress={() => openTodo(todo.id)} />
             {isDone ? (
                 <IconButton style={Style.buttonDone} iconColor={theme.colors.onSecondary} icon="close" onPress={toggleStatus} />
             ):(
