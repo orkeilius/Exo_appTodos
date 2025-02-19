@@ -2,21 +2,37 @@ import {Status, Todo} from "../types/Todo";
 import {TodoContext, TodoRepository} from "../Repository/TodosRepository";
 import React, {useContext, useEffect, useState} from "react";
 import {ScrollView, StyleSheet, View} from "react-native";
-import {SegmentedButtons, TextInput } from "react-native-paper";
+import {Button, IconButton, SegmentedButtons, TextInput} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
 
 const DetailScreen = (props:any) => {
     const todoRepository: TodoRepository = useContext(TodoContext) as TodoRepository;
     const [todo,setTodo] = useState(todoRepository.todos.find((todo) => todo.id === props.route.params.id) as Todo);
+    const navigation = useNavigation();
 
     useEffect(() => {
         var timeout = setTimeout(updateRepo, 500);
         return () => clearTimeout(timeout);
     }, [todo]);
 
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+               <IconButton icon="delete" onPress={deleteTodo}/>
+            )
+        })
+    }, []);
+
     const updateRepo = () =>{
         todoRepository.upsert(todo)
     }
+    const deleteTodo = () => {
+        todoRepository.remove(todo);
+        navigation.navigate('Home')
+    }
+
+
 
 
     // @ts-ignore

@@ -8,7 +8,7 @@ A simple todo app using react native
 - [x] Add todo
 - [x] Toggle todo
 - [x] Detail views
-- [ ] Delete todo
+- [x] Delete todo
 - [ ] category (done, in progress, todo)
 - [ ] save data to local storage
 - [x] edit todo

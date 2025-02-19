@@ -16,7 +16,7 @@ export function TodoContextProvider(props: any) {
 
 
     const remove = (todo: Todo) => {
-        setTodos([...todos.filter(t => t.id !== todo.id), todo]);
+        setTodos([...todos.filter(t => t.id !== todo.id)]);
     }
 
     const save = () => {
