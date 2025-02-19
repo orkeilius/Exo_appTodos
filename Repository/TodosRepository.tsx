@@ -1,17 +1,22 @@
 import {createContext, useMemo, useState} from "react";
 import Todo from "../types/Todo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const TodoContext = createContext<TodoRepository | undefined>(undefined);
 
 export function TodoContextProvider(props: any) {
     const [todos, setTodos] = useState<Todo[]>([]);
 
+
+
     const upsert = (todo: Todo) => {
         if (todo.id === null) {
             todo.id = getMaxId() + 1;
         }
         // @ts-ignore
-        setTodos([...todos.filter(t => t.id !== todo.id), todo].sort((a, b) => a.id - b.id));
+        let newTodo = [...todos.filter(t => t.id !== todo.id), todo].sort((a, b) => a.id - b.id)
+        setTodos(newTodo);
+        save(newTodo);
     }
 
 
@@ -19,13 +24,23 @@ export function TodoContextProvider(props: any) {
         setTodos([...todos.filter(t => t.id !== todo.id)]);
     }
 
-    const save = () => {
-        //TODO
+    const save = async(todos : Todo[]) => {
+        try {
+            await AsyncStorage.setItem('todo', JSON.stringify(todos));
+        } catch (e){
+            console.error(e);
+        }
     }
 
-    const load = (): Todo[] => {
-        //TODO
-        return [];
+    const load = async (): Promise<Todo[]> => {
+       try {
+           const elem = await AsyncStorage.getItem('todo');
+           if(elem === null) return [];
+           return JSON.parse(elem);
+       } catch (e) {
+           console.error(e)
+           return [];
+       }
     }
 
     const getMaxId = (): number => {
@@ -34,6 +49,10 @@ export function TodoContextProvider(props: any) {
 
         return Math.max(...todos.map(todo => todo.id ?? 0));
     }
+
+    useState(() => {
+        load().then((todos) => setTodos(todos));
+    })
 
     const publicFonction = {upsert, remove};
 
